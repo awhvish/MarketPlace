@@ -45,9 +45,10 @@ export const addpost = async (form: AddPostValues) => {
                 },
             }
         })
+        if (!addpost) throw new Error ("Error in adding post to db")
     } catch(error) {
         return {
-            error: "Error creating a post"
+            error: "Error creating a post" + error
         }
     }
     console.log("Added post: " + filePath)
