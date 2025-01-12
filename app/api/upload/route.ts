@@ -16,14 +16,18 @@ export const POST = async (req: NextRequest) => {
     const buffer = Buffer.from(await file.arrayBuffer());
 
     // Create a promise to handle Cloudinary upload response
-    const cloudinaryUploadPromise = new Promise((resolve, reject) => {
+    const cloudinaryUploadPromise = new Promise<{ secure_url: string }>((resolve, reject) => {
       const uploadStream = cloudinary.uploader.upload_stream(
         { resource_type: 'auto' }, // Automatically detect file type (e.g., image, video)
         (error, result) => {
           if (error) {
             reject(error); // Reject the promise if there's an error
           } else {
-            resolve(result); // Resolve the promise with the result
+            if (result) {
+              resolve(result); // Resolve the promise with the result
+            } else {
+              reject(new Error('Upload failed, no result returned')); // Reject if result is undefined
+            }
           }
         }
       );
