@@ -1,17 +1,29 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+<<<<<<< HEAD
 import Link from 'next/link';
 import { getProviders, signIn } from 'next-auth/react';
 import { ChromeIcon as Google } from 'lucide-react';
 import { login } from '@/actions/login';
+=======
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { getProviders, signIn } from 'next-auth/react';
+import { ChromeIcon as Google } from 'lucide-react';
+>>>>>>> 2a2ccd0f384a41650db6e07cd99c943aecaad690
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+<<<<<<< HEAD
 
   const [providers, setProviders] = useState<Record<string, { id: string; name: string }> | null>(null);
   const [error, setError] = useState('');
+=======
+  const [providers, setProviders] = useState<Record<string, { id: string; name: string }> | null>(null);
+  const router = useRouter();
+>>>>>>> 2a2ccd0f384a41650db6e07cd99c943aecaad690
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -23,6 +35,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+<<<<<<< HEAD
 
     const result = await login({ username, password });
 
@@ -38,6 +51,24 @@ export default function LoginPage() {
 
   const handleGoogleSignIn = (providerId: string) => {
     signIn(providerId, { callbackUrl: '/' }); // TODO
+=======
+    const providerId = 'credentials'; // Assuming 'credentials' is configured in your NextAuth backend
+    const result = await signIn(providerId, {
+      redirect: false,
+      username,
+      password,
+    });
+
+    if (result?.ok) {
+      router.push(`/user/profile/${username}`);
+    } else {
+      console.error('Failed to log in');
+    }
+  };
+
+  const handleGoogleSignIn = (providerId: string) => {
+    signIn(providerId, { callbackUrl: '/' });
+>>>>>>> 2a2ccd0f384a41650db6e07cd99c943aecaad690
   };
 
   return (
@@ -83,9 +114,12 @@ export default function LoginPage() {
             Sign In
           </button>
         </form>
+<<<<<<< HEAD
         <div className='text-red-500'>
           {error}
         </div>
+=======
+>>>>>>> 2a2ccd0f384a41650db6e07cd99c943aecaad690
         <div className="mt-4 text-center">
           <Link href="/forgot-password" className="text-sm text-gray-600 hover:underline">
             Forgot your password?
