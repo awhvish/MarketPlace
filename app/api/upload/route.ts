@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import cloudinary from '@/utils/cloudinary';
+import { Readable } from 'stream';
 
 export const POST = async (req: NextRequest) => {
   try {
+    // Parse the incoming form data
     const form = await req.formData();
     const file = form.get('file') as File;
 
@@ -11,21 +12,41 @@ export const POST = async (req: NextRequest) => {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
-    // Create a unique file path
-    const fileName = `${Date.now()}-${file.name}`;
-    const filePath = path.join(process.cwd(), 'public/uploads', fileName);
-
-    // Convert file to a buffer and save it
+    // Convert the file to a buffer
     const buffer = Buffer.from(await file.arrayBuffer());
-    await fs.writeFile(filePath, buffer);
 
-    return NextResponse.json({ filePath: `/uploads/${fileName}` });
+    // Create a promise to handle Cloudinary upload response
+    const cloudinaryUploadPromise = new Promise((resolve, reject) => {
+      const uploadStream = cloudinary.uploader.upload_stream(
+        { resource_type: 'auto' }, // Automatically detect file type (e.g., image, video)
+        (error, result) => {
+          if (error) {
+            reject(error); // Reject the promise if there's an error
+          } else {
+            resolve(result); // Resolve the promise with the result
+          }
+        }
+      );
+
+      // Use the stream to send the buffer to Cloudinary
+      const readableStream = Readable.from(buffer);
+      readableStream.pipe(uploadStream);
+    });
+
+    // Wait for Cloudinary upload to finish and handle response
+    const result = await cloudinaryUploadPromise;
+
+    // Ensure the response is sent after the upload is complete
+    return NextResponse.json({ filePath: result?.secure_url }, { status: 200 });
   } catch (error) {
     console.error('Upload error:', error);
+
+    // Return an error response if any issue occurs
     return NextResponse.json({ error: 'File upload failed' }, { status: 500 });
   }
 };
 
-// Set route configuration
-export const runtime = 'nodejs'; // Set runtime to Node.js
-export const dynamic = 'force-dynamic'; // Ensure this route always uses dynamic rendering
+
+  // Set route configuration
+  export const runtime = 'nodejs'; // Use Node.js runtime
+  export const dynamic = 'force-dynamic'; // Ensure the route is always dynamically rendered
