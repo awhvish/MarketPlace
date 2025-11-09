@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator custom_generator {
+  provider = "prisma-client-js"
+  seed     = "ts-node prisma/seed.ts"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  emailVerified    Boolean?  @default(false)
+  username         String    @unique
+  name             String
+  password         String
+  image            String?
+  createdAt        DateTime  @default(now())
+  country          String    @default("India")
+  phone            String?
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  role             String    @default("USER")
+  posts            Post[]
+
+  @@unique([id, username])
+}
+
+model Post {
+  id             Int      @id @default(autoincrement())
+  createdAt      DateTime @default(now())
+  title          String
+  description    String
+  image          String
+  published      Boolean  @default(false)
+  authorId       String
+  bidEndDate     String
+  price          String
+  authorUserName String   @default("John")
+  bidHistory     Json[]   @default([])
+  bidsClosed     Boolean  @default(false)
+  author         User     @relation(fields: [authorId, authorUserName], references: [id, username])
+}
