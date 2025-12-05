@@ -1,0 +1,2 @@
+-- Add user role
+ALTER TABLE "User" ADD COLUMN "role" TEXT NOT NULL DEFAULT 'USER';

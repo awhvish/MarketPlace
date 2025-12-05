@@ -35,11 +35,25 @@ export const getProducts = async () => {
             }
         })
 
-        const formatProduct = (product: any) => ({
-            ...product,
-            authorUserName: product.author.username,
-            author: undefined
-        })
+        const formatProduct = (product: any) => {
+            // Calculate highest bid from bidHistory
+            let currentBid = product.price;
+            if (product.bidHistory && Array.isArray(product.bidHistory) && product.bidHistory.length > 0) {
+                const highestBid = product.bidHistory.reduce((max: any, bid: any) => {
+                    const bidAmount = Number(bid.amount);
+                    const maxAmount = Number(max.amount);
+                    return bidAmount > maxAmount ? bid : max;
+                }, product.bidHistory[0]);
+                currentBid = String(highestBid.amount);
+            }
+            
+            return {
+                ...product,
+                authorUserName: product.author.username,
+                price: currentBid, // Use highest bid as the price
+                author: undefined
+            };
+        }
 
         return { 
             ongoingProducts: ongoingProducts.map(formatProduct), 

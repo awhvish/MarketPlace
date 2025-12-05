@@ -86,11 +86,27 @@ const config: Config = {
           "0%, 100%": { transform: "translateY(-5%)" },
           "50%": { transform: "translateY(0)" },
         },
+        shimmer: {
+          "0%": { backgroundPosition: "-200% center" },
+          "100%": { backgroundPosition: "200% center" }
+        },
+        gradient: {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" }
+        },
+        pulse: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" }
+        },
       },
       transitionProperty: {
         height: "height",
         width: "width",
         spacing: "margin, padding",
+      },
+      backgroundSize: {
+        '200': '200% 200%',
+        '300': '300% 300%',
       },
     },
   },

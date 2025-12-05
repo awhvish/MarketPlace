@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import { addpost } from '@/actions/addpost'
 import { Footer } from '@/components/Footer'
 import { Session } from 'next-auth'
+import { Upload, DollarSign, FileText, Calendar, Image as ImageIcon, Sparkles } from 'lucide-react'
 
 export default function AddPostPage() {
   const router = useRouter()
@@ -144,52 +145,102 @@ export default function AddPostPage() {
   }
 
   return (
-    <>
-      <Header />
-      <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md mx-auto bg-black/50 rounded-xl shadow-md overflow-hidden md:max-w-2xl border border-[#6D28D9]/30">
-          <div className="md:flex">
-            <div className="p-8 w-full">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-white">Add New Artwork</h2>
-                <p className="text-sm text-gray-400 mt-1">Share your art with the world</p>
+    <div className="min-h-screen flex flex-col relative overflow-hidden">
+      {/* Enhanced Animated Background */}
+      <div className="fixed inset-0 bg-[#0a0a0a] z-0"></div>
+      
+      {/* Multiple Gradient Orbs */}
+      <div className="fixed top-0 left-0 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-3xl animate-pulse-slow"></div>
+      <div className="fixed bottom-0 right-0 w-[600px] h-[600px] bg-pink-600/10 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '2s'}}></div>
+      <div className="fixed top-1/2 right-1/4 w-[400px] h-[400px] bg-blue-600/8 rounded-full blur-3xl animate-pulse-slow" style={{animationDelay: '4s'}}></div>
+      
+      {/* Animated Grid Pattern */}
+      <div className="fixed inset-0 opacity-[0.015]" style={{
+        backgroundImage: 'linear-gradient(rgba(168, 85, 247, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(168, 85, 247, 0.5) 1px, transparent 1px)',
+        backgroundSize: '50px 50px'
+      }}></div>
+      
+      <div className="relative z-10 min-h-screen flex flex-col text-white">
+        <Header />
+        <main className="flex-1 py-12 pt-24 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto">
+            {/* Page Header */}
+            <div className="text-center mb-12 animate-fade-in-up">
+              <div className="inline-block mb-4">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-2xl">
+                  <Sparkles className="w-10 h-10 text-white" />
+                </div>
               </div>
-              
+              <h1 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+                <span className="gradient-text-animated drop-shadow-[0_0_30px_rgba(168,85,247,0.8)]">
+                  Add New Artwork
+                </span>
+              </h1>
+              <p className="text-lg text-gray-300">
+                Share your masterpiece with the world
+              </p>
+            </div>
+            
+            {/* Form Card */}
+            <div className="glass rounded-3xl p-8 md:p-10 border border-white/10 shadow-2xl animate-fade-in-up" style={{animationDelay: '0.1s'}}>
               {errors.submit && (
-                <div className="text-red-500 mb-4 p-3 rounded bg-red-50">
-                  {errors.submit}
+                <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 animate-fade-in-up">
+                  <p className="text-sm font-medium">{errors.submit}</p>
                 </div>
               )}
               
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div>
-                  <label htmlFor="image" className="block text-sm font-medium text-white">
+                {/* Image Upload Section */}
+                <div className="space-y-3">
+                  <label htmlFor="image" className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <ImageIcon className="w-4 h-4 text-purple-400" />
                     Upload Image
                   </label>
-                  <input
-                    type="file"
-                    name="image"
-                    id="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="mt-1 block w-full text-sm text-gray-300
-                      file:mr-4 file:py-2 file:px-4
-                      file:rounded-md file:border-0
-                      file:text-sm file:font-semibold
-                      file:bg-gradient-to-r file:from-indigo-800 file:from-25% file:to-purple-600 
-                      hover:file:from-pink-500 hover:file:to-orange-500
-                      file:text-white cursor-pointer"
-                  />
-                  {errors.image && <p className="mt-2 text-sm text-red-600">{errors.image}</p>}
+                  <div className="relative">
+                    <input
+                      type="file"
+                      name="image"
+                      id="image"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="image"
+                      className="flex items-center justify-center gap-3 w-full px-6 py-4 glass-hover rounded-xl border-2 border-dashed border-purple-500/30 hover:border-purple-500/60 cursor-pointer transition-all duration-300 group"
+                    >
+                      <Upload className="w-5 h-5 text-purple-400 group-hover:scale-110 transition-transform" />
+                      <span className="text-sm font-medium text-gray-300 group-hover:text-white">
+                        {image ? image.name : 'Choose a file or drag it here'}
+                      </span>
+                    </label>
+                  </div>
+                  {errors.image && (
+                    <p className="text-sm text-red-400 flex items-center gap-1">
+                      <span>⚠️</span> {errors.image}
+                    </p>
+                  )}
                   {imagePreview && (
-                    <div className="mt-4">
-                      <Image src={imagePreview} alt="Preview" width={200} height={200} className="rounded-md" />
+                    <div className="relative aspect-video overflow-hidden rounded-xl border border-white/10 shadow-lg group">
+                      <Image 
+                        src={imagePreview} 
+                        alt="Preview" 
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-4 left-4">
+                          <p className="text-white font-semibold">Preview</p>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
 
-                <div>
-                  <label htmlFor="title" className="block text-sm font-medium text-white">
+                {/* Title Input */}
+                <div className="space-y-3">
+                  <label htmlFor="title" className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <FileText className="w-4 h-4 text-purple-400" />
                     Title
                   </label>
                   <input
@@ -198,46 +249,67 @@ export default function AddPostPage() {
                     id="title"
                     value={formData.title}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
-                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    placeholder="Enter your artwork title"
+                    className="w-full px-4 py-3 glass rounded-xl border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
                   />
-                  {errors.title && <p className="mt-2 text-sm text-red-600">{errors.title}</p>}
+                  {errors.title && (
+                    <p className="text-sm text-red-400 flex items-center gap-1">
+                      <span>⚠️</span> {errors.title}
+                    </p>
+                  )}
                 </div>
 
-                <div>
-                  <label htmlFor="price" className="block text-sm font-medium text-white">
+                {/* Starting Price Input */}
+                <div className="space-y-3">
+                  <label htmlFor="price" className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <DollarSign className="w-4 h-4 text-purple-400" />
                     Starting Price
                   </label>
-                  <input
-                    type="text"
-                    name="price"
-                    id="price"
-                    value={formData.price}
-                    onChange={handleInputChange}
-                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
-                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
-                  />
-                  {errors.price && <p className="mt-2 text-sm text-red-400">{errors.price}</p>}
+                  <div className="relative">
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">$</span>
+                    <input
+                      type="text"
+                      name="price"
+                      id="price"
+                      value={formData.price}
+                      onChange={handleInputChange}
+                      placeholder="0.00"
+                      className="w-full pl-8 pr-4 py-3 glass rounded-xl border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                    />
+                  </div>
+                  {errors.price && (
+                    <p className="text-sm text-red-400 flex items-center gap-1">
+                      <span>⚠️</span> {errors.price}
+                    </p>
+                  )}
                 </div>
 
-                <div>
-                  <label htmlFor="description" className="block text-sm font-medium text-white">
+                {/* Description Textarea */}
+                <div className="space-y-3">
+                  <label htmlFor="description" className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <FileText className="w-4 h-4 text-purple-400" />
                     Description
                   </label>
                   <textarea
                     name="description"
                     id="description"
-                    rows={3}
+                    rows={4}
                     value={formData.description}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
-                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    placeholder="Describe your artwork, its inspiration, techniques used..."
+                    className="w-full px-4 py-3 glass rounded-xl border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all resize-none"
                   />
-                  {errors.description && <p className="mt-2 text-sm text-red-400">{errors.description}</p>}
+                  {errors.description && (
+                    <p className="text-sm text-red-400 flex items-center gap-1">
+                      <span>⚠️</span> {errors.description}
+                    </p>
+                  )}
                 </div>
 
-                <div>
-                  <label htmlFor="bidEndDate" className="block text-sm font-medium text-white">
+                {/* Bid End Date */}
+                <div className="space-y-3">
+                  <label htmlFor="bidEndDate" className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <Calendar className="w-4 h-4 text-purple-400" />
                     Bid End Date
                   </label>
                   <input
@@ -247,30 +319,43 @@ export default function AddPostPage() {
                     value={formData.bidEndDate}
                     onChange={handleInputChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className="mt-1 block w-full bg-black/50 border border-[#6D28D9]/30 rounded-md shadow-sm py-2 px-3 
-                             text-white focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                    className="w-full px-4 py-3 glass rounded-xl border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
                   />
-                  {errors.bidEndDate && <p className="mt-2 text-sm text-red-600">{errors.bidEndDate}</p>}
+                  {errors.bidEndDate && (
+                    <p className="text-sm text-red-400 flex items-center gap-1">
+                      <span>⚠️</span> {errors.bidEndDate}
+                    </p>
+                  )}
                 </div>
 
-                <div>
+                {/* Submit Button */}
+                <div className="pt-4">
                   <button
                     type="submit"
                     disabled={uploading}
-                    className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md
-                             text-sm font-medium text-white bg-gradient-to-r from-indigo-800 from-25% to-purple-600 
-                             hover:from-pink-500 hover:to-orange-500 transition
-                             ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className={`w-full flex items-center justify-center gap-2 py-4 px-6 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl text-white font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-purple-500/50 ${
+                      uploading ? 'opacity-50 cursor-not-allowed' : 'hover-scale'
+                    }`}
                   >
-                    {uploading ? 'Uploading...' : 'Add Artwork'}
+                    {uploading ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        <span>Uploading...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-5 h-5" />
+                        <span>Add Artwork</span>
+                      </>
+                    )}
                   </button>
                 </div>
               </form>
             </div>
           </div>
-        </div>
+        </main>
+        <Footer />
       </div>
-      <Footer />
-    </>
+    </div>
   )
 }

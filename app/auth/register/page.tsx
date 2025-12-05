@@ -2,12 +2,11 @@
 
 import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
-import { Chrome } from 'lucide-react'
+import { User, Mail, Lock, Phone, Globe, ArrowRight } from 'lucide-react'
 import { register } from '@/actions/register'
 import { FormValues } from '@/utils/formValue'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { AuthLayout, AuthFormDivider, AuthFormLink } from '@/components/ui/auth-layout'
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState<FormValues>({
@@ -61,181 +60,207 @@ const RegisterPage = () => {
     setIsSubmitting(false)
   }
 
-  const handleGoogleSignUp = () => {
-    console.log('Google Sign-Up attempted')
-    alert("Not yet functional")
-    // Add your Google authentication logic here
-  }
-
   return (
-    <AuthLayout
-      title="Create an Account"
-      subtitle="Sign up to start creating and setting up bids for your art!"
-    >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="space-y-2">
-          <label htmlFor="name" className="block text-[13px] text-gray-500">
-            Name
-          </label>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            value={formData.name}
-            onChange={handleChange}
-            error={!!errors.name}
-            required
-            placeholder="Enter your name"
-          />
-          {errors.name && <p className="text-sm text-red-400">{errors.name}</p>}
+    <div className="min-h-screen bg-[#0A0A0A] text-white flex">
+      {/* Left Side - Art Showcase */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-gradient-to-br from-indigo-900 via-purple-900 to-black overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.1) 1px, transparent 1px)', backgroundSize: '30px 30px' }}></div>
         </div>
-
-        <div className="space-y-2">
-          <label htmlFor="username" className="block text-[13px] text-gray-500">
-            Username
-          </label>
-          <Input
-            id="username"
-            name="username"
-            type="text"
-            value={formData.username}
-            onChange={handleChange}
-            error={!!errors.username}
-            required
-            placeholder="Enter your username"
-          />
-          {errors.username && <p className="text-sm text-red-400">{errors.username}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-400">
-            Email address
-          </label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            error={!!errors.email}
-            required
-            placeholder="Enter your email address"
-          />
-          {errors.email && <p className="text-sm text-red-400">{errors.email}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="password" className="block text-sm font-medium text-gray-400">
-            Password
-          </label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            error={!!errors.password}
-            required
-            placeholder="Enter your password"
-          />
-          {errors.password && <p className="text-sm text-red-400">{errors.password}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-400">
-            Phone Number
-          </label>
-          <Input
-            id="phone"
-            name="phone"
-            type="tel"
-            value={formData.phone}
-            onChange={handleChange}
-            error={!!errors.phone}
-            required
-            placeholder="Enter your phone number"
-          />
-          {errors.phone && <p className="text-sm text-red-400">{errors.phone}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label htmlFor="country" className="block text-sm font-medium text-gray-400">
-            Country
-          </label>
-          <Input
-            id="country"
-            name="country"
-            type="text"
-            value={formData.country}
-            onChange={handleChange}
-            error={!!errors.country}
-            required
-            placeholder="Enter your country"
-          />
-          {errors.country && <p className="text-sm text-red-400">{errors.country}</p>}
-        </div>
-
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-400">Account Type</label>
-          <div className="flex gap-4">
-            <label className="flex items-center text-gray-400">
-              <input
-                type="radio"
-                name="role"
-                value="USER"
-                checked={formData.role === 'USER'}
-                onChange={handleChange}
-                className="mr-2 text-indigo-600 focus:ring-indigo-500 bg-[#141414] border-zinc-800"
-              />
-              User
-            </label>
-            <label className="flex items-center text-gray-400">
-              <input
-                type="radio"
-                name="role"
-                value="ARTIST"
-                checked={formData.role === 'ARTIST'}
-                onChange={handleChange}
-                className="mr-2 text-indigo-600 focus:ring-indigo-500 bg-[#141414] border-zinc-800"
-              />
-              Artist
-            </label>
+        <div className="relative w-full h-full flex flex-col items-center justify-center p-12 text-center">
+          <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-300 bg-clip-text text-transparent">
+            Start Your Journey
+          </h1>
+          <p className="text-lg text-gray-300 mb-8 max-w-md">
+            Join thousands of artists and collectors in the world&apos;s most vibrant digital art marketplace.
+          </p>
+          <div className="grid grid-cols-1 gap-4 w-full max-w-lg">
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 text-left">
+              <h3 className="text-lg font-semibold mb-2">🎨 For Artists</h3>
+              <p className="text-sm text-gray-400">Showcase your work and connect with collectors worldwide</p>
+            </div>
+            <div className="bg-white/5 backdrop-blur-sm rounded-xl p-4 text-left">
+              <h3 className="text-lg font-semibold mb-2">🖼️ For Collectors</h3>
+              <p className="text-sm text-gray-400">Discover unique pieces and support emerging artists</p>
+            </div>
           </div>
-          {errors.role && <p className="text-sm text-red-400">{errors.role}</p>}
         </div>
+      </div>
 
-        {errors.general && (
-          <div className="p-3 rounded bg-red-900/20 border border-red-500/20 text-red-400 text-sm">
-            {errors.general}
+      {/* Right Side - Register Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 overflow-y-auto">
+        <div className="w-full max-w-md space-y-6 my-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight">Join Us Today</h2>
+            <p className="mt-2 text-gray-400">Create your account to get started</p>
           </div>
-        )}
 
-        <Button
-          type="submit"
-          className="w-full bg-[#7C3AED] hover:bg-[#6D28D9] text-white text-sm font-medium rounded transition-colors"
-          disabled={isSubmitting}
-        >
-          {isSubmitting ? 'Creating Account...' : 'Create Account'}
-        </Button>
-      </form>
+          <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+            {errors.general && (
+              <div className="p-4 rounded-lg bg-red-900/20 border border-red-500/20 text-red-400 text-sm">
+                {errors.general}
+              </div>
+            )}
 
-      <AuthFormDivider />
+            <div className="relative">
+              <User className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="name"
+                name="name"
+                type="text"
+                value={formData.name}
+                onChange={handleChange}
+                error={!!errors.name}
+                required
+                placeholder="Full Name"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.name && <p className="text-sm text-red-400 mt-1">{errors.name}</p>}
+            </div>
 
-      <Button
-        variant="outline"
-        onClick={handleGoogleSignUp}
-        className="w-full bg-[#141414] border-zinc-800 text-white hover:bg-zinc-900 text-sm font-medium"
-      >
-        <Chrome className="mr-2 h-4 w-4" />
-        Sign up with Google
-      </Button>
+            <div className="relative">
+              <User className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="username"
+                name="username"
+                type="text"
+                value={formData.username}
+                onChange={handleChange}
+                error={!!errors.username}
+                required
+                placeholder="Username"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.username && <p className="text-sm text-red-400 mt-1">{errors.username}</p>}
+            </div>
 
-      <AuthFormLink
-        href="/auth/login"
-        text="Already have an account?"
-        label="Sign in"
-      />
-    </AuthLayout>
+            <div className="relative">
+              <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="email"
+                name="email"
+                type="email"
+                value={formData.email}
+                onChange={handleChange}
+                error={!!errors.email}
+                required
+                placeholder="Email Address"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.email && <p className="text-sm text-red-400 mt-1">{errors.email}</p>}
+            </div>
+
+            <div className="relative">
+              <Lock className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="password"
+                name="password"
+                type="password"
+                value={formData.password}
+                onChange={handleChange}
+                error={!!errors.password}
+                required
+                placeholder="Password"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.password && <p className="text-sm text-red-400 mt-1">{errors.password}</p>}
+            </div>
+
+            <div className="relative">
+              <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="phone"
+                name="phone"
+                type="tel"
+                value={formData.phone}
+                onChange={handleChange}
+                error={!!errors.phone}
+                required
+                placeholder="Phone Number"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.phone && <p className="text-sm text-red-400 mt-1">{errors.phone}</p>}
+            </div>
+
+            <div className="relative">
+              <Globe className="absolute left-3 top-3.5 h-5 w-5 text-gray-500" />
+              <Input
+                id="country"
+                name="country"
+                type="text"
+                value={formData.country}
+                onChange={handleChange}
+                error={!!errors.country}
+                required
+                placeholder="Country"
+                className="h-12 pl-12 bg-zinc-900/50 border-zinc-800 focus:border-purple-500 focus:ring-purple-500/20 rounded-lg transition-all duration-300"
+              />
+              {errors.country && <p className="text-sm text-red-400 mt-1">{errors.country}</p>}
+            </div>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-400">Account Type</label>
+              <div className="grid grid-cols-2 gap-3">
+                <label className={`flex items-center justify-center p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                  formData.role === 'USER' 
+                    ? 'border-purple-500 bg-purple-500/10' 
+                    : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'
+                }`}>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="USER"
+                    checked={formData.role === 'USER'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <span className="text-sm font-medium">Collector</span>
+                </label>
+                <label className={`flex items-center justify-center p-3 rounded-lg border-2 cursor-pointer transition-all duration-300 ${
+                  formData.role === 'ARTIST' 
+                    ? 'border-purple-500 bg-purple-500/10' 
+                    : 'border-zinc-800 bg-zinc-900/50 hover:border-zinc-700'
+                }`}>
+                  <input
+                    type="radio"
+                    name="role"
+                    value="ARTIST"
+                    checked={formData.role === 'ARTIST'}
+                    onChange={handleChange}
+                    className="sr-only"
+                  />
+                  <span className="text-sm font-medium">Artist</span>
+                </label>
+              </div>
+              {errors.role && <p className="text-sm text-red-400">{errors.role}</p>}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-medium rounded-lg h-12 transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-purple-500/25 flex items-center justify-center gap-2"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Creating Account...' : (
+                <>
+                  Create Account <ArrowRight className="h-5 w-5" />
+                </>
+              )}
+            </Button>
+          </form>
+
+          <p className="text-center text-sm text-gray-500">
+            Already have an account?{' '}
+            <Button
+              variant="link"
+              onClick={() => router.push('/auth/login')}
+              className="text-purple-400 hover:text-purple-300 font-medium"
+            >
+              Login
+            </Button>
+          </p>
+        </div>
+      </div>
+    </div>
   )
 }
 

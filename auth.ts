@@ -1,7 +1,7 @@
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/utils/db";
 
 export const authOptions: AuthOptions = { 
@@ -49,8 +49,8 @@ export const authOptions: AuthOptions = {
     ],
     session: {
         strategy: "jwt",
-        maxAge: 30 * 24 * 60 * 60,
-        updateAge: 24 * 60 * 60,
+        maxAge: 90 * 24 * 60 * 60, // 90 days
+        updateAge: 24 * 60 * 60, // Update every 24 hours
     },
     callbacks: {
 
